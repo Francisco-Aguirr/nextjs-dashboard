@@ -79,9 +79,9 @@ export async function updateInvoice(id: string, formData: FormData) {
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
+
   const amountInCents = amount * 100;
- 
+
   try {
     await sql`
         UPDATE invoices
@@ -89,11 +89,11 @@ export async function updateInvoice(id: string, formData: FormData) {
         WHERE id = ${id}
       `;
   } catch (error) {
-    // We'll also log the error to the console for now
     console.error(error);
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    // En lugar de retornar un objeto, puedes lanzar un error o redirigir a una página de error
+    throw new Error('Failed to update invoice.');
   }
- 
+
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
